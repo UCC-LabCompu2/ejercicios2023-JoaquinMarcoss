@@ -138,3 +138,51 @@ let tomarDatosLS = () =>{
     const unid = localStorage.getItem("unidadesLS"); 
     document.getElementById("dist").value = '${cant} ${unid}'; 
 }
+
+let dibujarCirculoCuadrado = () =>{
+    const canvas = document.getElementById("myCanvas"); 
+    const ctx = canvas.getContext("2d"); 
+
+    const anchoMax = canvas.width; 
+    const alturaMax = canvas.height;
+
+    ctx.beginPath(); 
+    ctx.fillStyle = "#851414"; 
+    ctx.arc(anchoMax/2,alturaMax/2,100,0,2*Math.PI); 
+    ctx.stroke(); 
+    ctx.fill(); 
+    ctx.closePath(); 
+
+    const margen = 8; 
+    ctx.beginPath();
+    ctx.fillStyle = "#394554"; 
+    ctx.fillRect(0+margen,alturaMax-100-margen,150,100);
+    ctx.fill(); 
+    ctx.stroke(); 
+    ctx.closePath();     
+}
+
+let limpiarCanvas = () =>{
+    const canvas = document.getElementById("myCanvas"); 
+    const ctx = canvas.getContext("2d"); 
+
+    canvas.width = canvas.width; 
+}
+
+var bandera; 
+let dibujar = () =>{
+    const canvas = document.getElementById("myCanvas"); 
+    const ctx = canvas.getContext("2d"); 
+
+    let posX = event.clientX; 
+    let posY = event.clientY; 
+
+    canvas.onmousedown = function (){bandera = true}; 
+    canvas.onmouseup = function (){bandera = false}; 
+
+    if(bandera){
+            ctx.fillRect(posX-10,posY-10,5,5); 
+            ctx.fill(); 
+    }
+
+}
