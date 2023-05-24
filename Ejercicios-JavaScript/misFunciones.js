@@ -8,6 +8,11 @@
 let conversorUnidades = (id, valor) => {
     //creacion de variables
     let met, pul, pie, yar;
+
+    if(valor.includes(",")){
+        valor = valor.replace("."); 
+    }
+
     if(isNaN(valor)){
         //comprobar si el valor ingresado es numerico
         met = " "; 
@@ -40,10 +45,10 @@ let conversorUnidades = (id, valor) => {
         pul = 36*valor;
         pie = 3*valor;
     }
-    document.lasUnidades.unid_metro.value = met;
-    document.lasUnidades.unid_yarda.value = yar;
-    document.lasUnidades.unid_pulgada.value = pul;
-    document.lasUnidades.unid_pie.value = pie;
+    document.lasUnidades.unid_metro.value = Math.round(met*100)/100;
+    document.lasUnidades.unid_yarda.value = Math.round(yar*100)/100;
+    document.lasUnidades.unid_pulgada.value = pul.toFixed(2);
+    document.lasUnidades.unid_pie.value = pie.toFixed(2);
 }
 
 /**
@@ -95,5 +100,41 @@ let sumar = () =>{
     num1 = document.getElementById("nums1").value;
     num2 = document.getElementById("nums2").value; 
     res = Number(num1) + Number(num2); 
-    document.getElementById("totalS").value = res; 
+    document.getElementById("totalS").innerHTML = res; 
+}
+
+let generarUrl = () => {
+    const dist  = document.getElementById("distancia").value; 
+    const unid = document.getElementsByName("unidades")[0].value; 
+
+    console.log("La distacia es:"+dist); 
+    console.log("La unidad es:"+unid); 
+
+    const urlComp = 'segundaWeb.html#${dist}#${unid}';
+    //const urlComp = "segundaWeb.html#"+dist+"#"+unid;
+    window.open(urlComp, "_self"); 
+}
+
+let cargarValores = () =>{
+    let urlCompleta = window.location.href; 
+    urlCompleta = urlCompleta.split("#"); 
+
+    const distancia = urlCompleta[1]; 
+    const unidad = urlCompleta[2]; 
+    document.getElementById("dist").value = '${distancia} ${unidad}'; 
+}
+
+let guardarDatosLS = () =>{
+    const dist  = document.getElementById("distancia").value; 
+    const unid = document.getElementsByName("unidades")[0].value; 
+
+    localStorage.setItem("distanciaLS", dist); 
+    localStorage.setItem("unidadesLS", unid); 
+    window.open("web2.html"); 
+}
+
+let tomarDatosLS = () =>{
+    const cant = localStorage.getItem("dintanciaLS"); 
+    const unid = localStorage.getItem("unidadesLS"); 
+    document.getElementById("dist").value = '${cant} ${unid}'; 
 }
